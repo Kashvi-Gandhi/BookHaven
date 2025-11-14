@@ -1,0 +1,2077 @@
+/* Main CSS for BookHaven Online Library Management System */
+
+:root {
+    --primary: #1a5276;
+    --secondary: #3498db;
+    --accent: #e74c3c;
+    --background: #f8f9fa;
+    --text: #333333;
+    --light-text: #666666;
+    --card: #ffffff;
+    --shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Reset and Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+    background-color: var(--background);
+    color: var(--text);
+    line-height: 1.6;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+    width: 100%;
+    box-sizing: border-box;
+    position: relative;
+}
+
+/* Animations */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes slideInRight {
+    from { transform: translateX(100%); }
+    to { transform: translateX(0); }
+}
+
+@keyframes pulse {
+    0% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+    100% { transform: scale(1); }
+}
+
+/* Header Styles */
+header {
+    background-color: var(--primary);
+    color: white;
+    padding: 1rem 0;
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    box-shadow: var(--shadow);
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    font-size: 1.5rem;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+}
+
+.logo i {
+    margin-right: 10px;
+}
+
+nav ul {
+    display: flex;
+    list-style: none;
+}
+
+nav ul li {
+    margin-left: 1.5rem;
+}
+
+nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s;
+    position: relative;
+}
+
+nav ul li a:hover {
+    color: #aed6f1;
+}
+
+nav ul li a.active::after {
+    content: '';
+    position: absolute;
+    bottom: -5px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--accent);
+}
+
+.auth-buttons {
+    display: flex;
+    align-items: center;
+}
+
+.auth-buttons button {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s;
+}
+
+.login-btn {
+    background-color: transparent;
+    color: white;
+    border: 1px solid white !important;
+}
+
+.login-btn:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.signup-btn {
+    background-color: var(--accent);
+    color: white;
+}
+
+.signup-btn:hover {
+    background-color: #c0392b;
+}
+
+.mobile-menu {
+    display: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+}
+
+/* Hero Section */
+.hero {
+    background: linear-gradient(rgba(0, 0, 0, 0.7), rgba(0, 0, 0, 0.7)), url('/api/placeholder/1200/500') center/cover no-repeat;
+    color: white;
+    padding: 5rem 0;
+    text-align: center;
+}
+
+.hero h1 {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    animation: fadeIn 1s ease-in;
+}
+
+.hero p {
+    font-size: 1.2rem;
+    max-width: 600px;
+    margin: 0 auto 2rem;
+    animation: fadeIn 1.2s ease-in;
+}
+
+.search-bar {
+    max-width: 600px;
+    margin: 0 auto;
+    display: flex;
+    animation: fadeIn 1.4s ease-in;
+}
+
+.search-bar input {
+    flex: 1;
+    padding: 0.8rem;
+    border: none;
+    border-radius: 4px 0 0 4px;
+    font-size: 1rem;
+}
+
+.search-bar button {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 0 4px 4px 0;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.search-bar button:hover {
+    background-color: #c0392b;
+}
+
+/* Categories Section */
+.categories {
+    padding: 3rem 0;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.section-title {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 2rem;
+    color: var(--primary);
+    position: relative;
+}
+
+.section-title::after {
+    content: '';
+    display: block;
+    width: 80px;
+    height: 4px;
+    background-color: var(--accent);
+    margin: 0.5rem auto 0;
+}
+
+.categories-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.category-card {
+    background-color: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    cursor: pointer;
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+}
+
+.category-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.category-img {
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s;
+}
+
+.category-card:hover .category-img {
+    transform: scale(1.05);
+}
+
+.category-content {
+    padding: 1.5rem;
+}
+
+.category-content h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.category-content p {
+    color: var(--light-text);
+    font-size: 0.9rem;
+}
+
+/* Featured Books Section */
+.featured-books {
+    padding: 3rem 0;
+    background-color: #f0f3f6;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.book-slider {
+    display: flex;
+    overflow-x: auto;
+    padding: 1rem 0;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    width: 100%;
+    max-width: 100%;
+}
+
+.book-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.book-card {
+    min-width: 200px;
+    margin-right: 1.5rem;
+    background-color: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: transform 0.3s, box-shadow 0.3s;
+    position: relative;
+    z-index: 1;
+    flex-shrink: 0;
+}
+
+.book-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.book-img {
+    height: 270px;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+    transition: transform 0.3s;
+}
+
+.book-card:hover .book-img {
+    transform: scale(1.05);
+}
+
+.book-badge {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    padding: 0.3rem 0.6rem;
+    background-color: var(--accent);
+    color: white;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    z-index: 1;
+}
+
+.book-content {
+    padding: 1rem;
+}
+
+.book-content h3 {
+    font-size: 1.1rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.book-content .author {
+    color: var(--light-text);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.book-content .rating {
+    color: #f39c12;
+    margin-bottom: 0.5rem;
+}
+
+.book-actions {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 1rem;
+}
+
+.book-actions button {
+    padding: 0.5rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.8rem;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.book-actions button:hover {
+    background-color: #154360;
+    transform: translateY(-2px);
+}
+
+.book-actions button:active {
+    transform: translateY(0);
+}
+
+.slider-controls {
+    display: flex;
+    justify-content: center;
+    margin-top: 1.5rem;
+}
+
+.slider-controls button {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin: 0 0.5rem;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.slider-controls button:hover {
+    background-color: #154360;
+    transform: scale(1.1);
+}
+
+.slider-controls button:active {
+    transform: scale(1);
+}
+
+/* Continue Reading Section */
+.continue-reading {
+    padding: 3rem 0;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.continue-card {
+    background-color: var(--card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    display: flex;
+    align-items: center;
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.continue-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.continue-img {
+    width: 100px;
+    height: 150px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 4px;
+    margin-right: 1.5rem;
+    transition: transform 0.3s;
+}
+
+.continue-card:hover .continue-img {
+    transform: scale(1.05);
+}
+
+.continue-content {
+    flex: 1;
+}
+
+.continue-content h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.continue-content .author {
+    color: var(--light-text);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.progress-bar {
+    height: 6px;
+    background-color: #e0e0e0;
+    border-radius: 3px;
+    margin: 1rem 0;
+    overflow: hidden;
+}
+
+.progress {
+    height: 100%;
+    background-color: var(--accent);
+    border-radius: 3px;
+    transition: width 0.3s ease;
+}
+
+.continue-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 0.5rem;
+}
+
+.continue-actions button {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+    display: flex;
+    align-items: center;
+}
+
+.continue-actions button i {
+    margin-right: 5px;
+}
+
+.continue-actions button:hover {
+    background-color: #154360;
+    transform: translateY(-2px);
+}
+
+.continue-actions button:active {
+    transform: translateY(0);
+}
+
+/* Audiobooks Section */
+.audiobooks {
+    padding: 3rem 0;
+    background-color: #f0f3f6;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.audiobook-card {
+    display: flex;
+    background-color: var(--card);
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.audiobook-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.audiobook-img {
+    width: 150px;
+    min-width: 150px;
+    background-size: cover;
+    background-position: center;
+    transition: transform 0.3s;
+}
+
+.audiobook-card:hover .audiobook-img {
+    transform: scale(1.05);
+}
+
+.audiobook-content {
+    padding: 1.5rem;
+    flex: 1;
+}
+
+.audiobook-content h3 {
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.audiobook-content .author {
+    color: var(--light-text);
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+}
+
+.audio-player {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.audio-control {
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    margin-right: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.audio-control:hover {
+    background-color: #154360;
+    transform: scale(1.1);
+}
+
+.audio-control:active {
+    transform: scale(1);
+}
+
+.speed-control {
+    padding: 0.5rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: white;
+    cursor: pointer;
+}
+
+/* Notes Section */
+.notes-section {
+    padding: 3rem 0;
+    background-color: #f8f9fa;
+    position: relative;
+    z-index: 1;
+    overflow: hidden;
+}
+
+.note-card {
+    background-color: var(--card);
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: var(--shadow);
+    margin-bottom: 1.5rem;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.note-card:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.note-title {
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+    color: var(--primary);
+}
+
+.note-content {
+    color: var(--light-text);
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+}
+
+.note-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.note-actions button {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s, transform 0.2s;
+}
+
+.note-actions button:hover {
+    background-color: #154360;
+    transform: translateY(-2px);
+}
+
+.note-actions button:active {
+    transform: translateY(0);
+}
+
+.add-note {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+.add-note input,
+.add-note textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+}
+
+.add-note button {
+    align-self: flex-start;
+    padding: 0.5rem 1.5rem;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background-color 0.3s;
+}
+
+.add-note button:hover {
+    background-color: #c0392b;
+}
+
+/* Additional CSS for BookHaven Online Library Management System */
+
+/* Category Section Enhancements */
+.category-card {
+    padding: 2rem 1.5rem;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+    z-index: 1;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: transform 0.5s ease, opacity 0.5s ease, box-shadow 0.3s ease;
+}
+
+.category-card.animate {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.category-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: linear-gradient(135deg, rgba(26, 82, 118, 0.05) 0%, rgba(52, 152, 219, 0.1) 100%);
+    z-index: -1;
+    transform: scale(0);
+    transition: transform 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    border-radius: 8px;
+}
+
+.category-card:hover::before {
+    transform: scale(1);
+}
+
+.category-icon {
+    font-size: 2.5rem;
+    color: var(--primary);
+    margin-bottom: 1rem;
+    transition: transform 0.3s ease, color 0.3s ease;
+}
+
+.category-card:hover .category-icon {
+    transform: scale(1.2);
+    color: var(--accent);
+}
+
+.category-card h3 {
+    position: relative;
+    padding-bottom: 0.5rem;
+    margin-bottom: 0.5rem;
+    display: inline-block;
+}
+
+.category-card h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 25%;
+    right: 25%;
+    height: 2px;
+    background-color: var(--accent);
+    transform: scaleX(0);
+    transition: transform 0.3s ease;
+}
+
+.category-card:hover h3::after {
+    transform: scaleX(1);
+}
+
+/* Book Card Enhancements */
+.book-cover {
+    position: relative;
+    overflow: hidden;
+    border-radius: 8px 8px 0 0;
+}
+
+.book-cover img {
+    width: 100%;
+    transition: transform 0.5s ease;
+}
+
+.book-card:hover .book-cover img {
+    transform: scale(1.05);
+}
+
+.book-actions {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0) 100%);
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+
+.book-cover:hover .book-actions {
+    transform: translateY(0);
+}
+
+.book-actions button {
+    padding: 0.5rem 0.75rem;
+    border: none;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.preview-btn {
+    background-color: var(--primary);
+    color: white;
+}
+
+.preview-btn:hover {
+    background-color: #154360;
+    transform: translateY(-2px);
+}
+
+.rent-btn {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.rent-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+}
+
+.buy-btn {
+    background-color: var(--accent);
+    color: white;
+}
+
+.buy-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+}
+
+.book-info {
+    padding: 1rem;
+    background-color: white;
+    border-radius: 0 0 8px 8px;
+}
+
+.book-info h3 {
+    margin-bottom: 0.3rem;
+    font-size: 1rem;
+    color: var(--primary);
+}
+
+.author {
+    font-size: 0.85rem;
+    color: var(--light-text);
+    margin-bottom: 0.5rem;
+}
+
+.rating {
+    color: #f39c12;
+    font-size: 0.85rem;
+}
+
+.rating span {
+    color: var(--light-text);
+    margin-left: 0.5rem;
+}
+
+/* Reading Progress Cards */
+.reading-progress-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.reading-card {
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateX(-30px);
+    transition: transform 0.6s ease, opacity 0.6s ease, box-shadow 0.3s ease;
+}
+
+.reading-card.animate {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.reading-card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.reading-info {
+    padding: 1rem;
+    flex: 1;
+}
+
+.progress-text {
+    font-size: 0.8rem;
+    color: var(--light-text);
+    margin-bottom: 1rem;
+}
+
+.continue-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.continue-btn:hover {
+    background-color: #154360;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Audiobook Section Enhancements */
+.audiobook-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.audiobook-card {
+    display: flex;
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: var(--shadow);
+    opacity: 0;
+    transform: translateX(30px);
+    transition: transform 0.6s ease, opacity 0.6s ease, box-shadow 0.3s ease;
+}
+
+.audiobook-card.animate {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+.audiobook-card:hover {
+    box-shadow: 0 10px 20px rgba(0,0,0,0.15);
+}
+
+.book-cover {
+    position: relative;
+}
+
+.play-icon {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0,0,0,0.3);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.play-icon i {
+    font-size: 3rem;
+    color: white;
+    transform: scale(0.8);
+    transition: transform 0.3s ease;
+}
+
+.book-cover:hover .play-icon {
+    opacity: 1;
+}
+
+.book-cover:hover .play-icon i {
+    transform: scale(1);
+}
+
+.audiobook-info {
+    padding: 1rem;
+    flex: 1;
+}
+
+.audio-controls {
+    display: flex;
+    align-items: center;
+    margin-top: 1rem;
+}
+
+.audio-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 0.75rem;
+    transition: all 0.3s ease;
+}
+
+.audio-btn:hover {
+    background-color: #154360;
+    transform: scale(1.1);
+}
+
+.audio-btn.play {
+    background-color: var(--accent);
+    width: 48px;
+    height: 48px;
+}
+
+.audio-btn.play:hover {
+    background-color: #c0392b;
+}
+
+.time {
+    font-size: 0.8rem;
+    color: var(--light-text);
+    margin-left: auto;
+}
+
+/* Notes Section Styling */
+.notes-container {
+    background-color: white;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: var(--shadow);
+}
+
+.notes-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+}
+
+.add-note-btn {
+    display: flex;
+    align-items: center;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--accent);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.add-note-btn i {
+    margin-right: 0.5rem;
+}
+
+.add-note-btn:hover {
+    background-color: #c0392b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.notes-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    width: 100%;
+    max-width: 100%;
+    overflow: hidden;
+}
+
+.note-card {
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    padding: 1.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    position: relative;
+    border-left: 4px solid var(--primary);
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.note-card.animate {
+    opacity: 1;
+    transform: scale(1);
+}
+
+.note-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+}
+
+.note-content {
+    color: var(--text);
+    font-style: italic;
+    margin-bottom: 1rem;
+    line-height: 1.5;
+    position: relative;
+}
+
+.note-content::before {
+    content: '"';
+    font-size: 2rem;
+    color: rgba(26, 82, 118, 0.1);
+    position: absolute;
+    top: -0.5rem;
+    left: -0.5rem;
+}
+
+.note-source {
+    margin-bottom: 1rem;
+    font-size: 0.85rem;
+}
+
+.book-title {
+    color: var(--primary);
+    font-weight: 500;
+    display: block;
+    margin-bottom: 0.3rem;
+}
+
+.author {
+    color: var(--light-text);
+}
+
+.note-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+}
+
+.note-actions button {
+    width: 32px;
+    height: 32px;
+    border-radius: 4px;
+    border: none;
+    background-color: var(--primary);
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.note-actions button:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.note-actions button:last-child {
+    background-color: var(--accent);
+}
+
+/* Modal Styling */
+.modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.7);
+    z-index: 9999;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+    overflow-y: auto;
+}
+
+.modal.show {
+    opacity: 1;
+}
+
+.modal-content {
+    background-color: white;
+    width: 90%;
+    max-width: 500px;
+    margin: 10vh auto 5vh;
+    border-radius: 8px;
+    padding: 2rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    transform: translateY(-50px);
+    opacity: 0;
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    position: relative;
+    z-index: 10000;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0);
+    opacity: 1;
+}
+
+.close-btn {
+    float: right;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--light-text);
+    transition: color 0.3s;
+}
+
+.close-btn:hover {
+    color: var(--accent);
+}
+
+.modal h2 {
+    color: var(--primary);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid #f0f0f0;
+}
+
+.modal form {
+    display: flex;
+    flex-direction: column;
+}
+
+.modal label {
+    margin-bottom: 0.5rem;
+    color: var(--text);
+    font-weight: 500;
+}
+
+.modal input,
+.modal textarea {
+    padding: 0.8rem;
+    border: 1px solid #e0e0e0;
+    border-radius: 4px;
+    margin-bottom: 1rem;
+    font-size: 1rem;
+    transition: border 0.3s;
+}
+
+.modal input:focus,
+.modal textarea:focus {
+    border-color: var(--secondary);
+    outline: none;
+}
+
+.modal button {
+    padding: 0.8rem 1.5rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    margin-top: 1rem;
+    align-self: flex-end;
+    transition: all 0.3s ease;
+}
+
+.modal button:hover {
+    background-color: #154360;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Book Reader Modal */
+.reader-modal {
+    z-index: 10001;
+}
+
+.reader-content {
+    background-color: white;
+    width: 90%;
+    max-width: 800px;
+    height: 80vh;
+    margin: 5vh auto;
+    border-radius: 8px;
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+    position: relative;
+    z-index: 10002;
+}
+
+.reader-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 1.5rem;
+    background-color: var(--primary);
+    color: white;
+}
+
+.reader-header h2 {
+    margin: 0;
+    font-size: 1.2rem;
+    border: none;
+}
+
+.reader-header .close-btn {
+    color: white;
+}
+
+.reader-body {
+    flex: 1;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    padding: 0;
+}
+
+.book-pages {
+    flex: 1;
+    overflow: auto;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-bottom: 1px solid #e0e0e0;
+    line-height: 1.8;
+}
+
+.book-pages p {
+    margin-bottom: 1.5rem;
+}
+
+.reader-controls {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem;
+    background-color: white;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.page-btn {
+    padding: 0.5rem 1rem;
+    background-color: var(--primary);
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.page-btn i {
+    margin: 0 0.3rem;
+}
+
+.page-btn:hover {
+    background-color: #154360;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.page-info {
+    font-size: 0.9rem;
+    color: var(--light-text);
+}
+
+.reader-actions {
+    display: flex;
+    justify-content: flex-end;
+    padding: 1rem 2rem;
+    gap: 1rem;
+}
+
+.highlight-btn,
+.save-note-btn {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    transition: all 0.3s ease;
+}
+
+.highlight-btn i,
+.save-note-btn i {
+    margin-right: 0.5rem;
+}
+
+.highlight-btn {
+    background-color: #f39c12;
+    color: white;
+}
+
+.highlight-btn:hover {
+    background-color: #e67e22;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+.save-note-btn {
+    background-color: var(--secondary);
+    color: white;
+}
+
+.save-note-btn:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+
+/* Footer Styling */
+footer {
+    background-color: var(--primary);
+    color: white;
+    padding: 3rem 0 0;
+}
+
+.footer-content {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+.footer-section h3 {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+    position: relative;
+    padding-bottom: 0.5rem;
+}
+
+.footer-section h3::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 50px;
+    height: 2px;
+    background-color: var(--accent);
+}
+
+.footer-section p {
+    margin-bottom: 1rem;
+    color: #ccc;
+    font-size: 0.9rem;
+}
+
+.footer-section.about .logo {
+    margin-bottom: 1rem;
+}
+
+.social-icons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+}
+
+.social-icons a {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    background-color: rgba(255,255,255,0.1);
+    border-radius: 50%;
+    color: white;
+    transition: all 0.3s ease;
+}
+
+.social-icons a:hover {
+    background-color: var(--accent);
+    transform: translateY(-3px);
+}
+
+.footer-section.links ul {
+    list-style: none;
+}
+
+.footer-section.links ul li {
+    margin-bottom: 0.8rem;
+}
+
+.footer-section.links ul li a {
+    color: #ccc;
+    text-decoration: none;
+    transition: color 0.3s, transform 0.3s;
+    display: inline-block;
+}
+
+.footer-section.links ul li a:hover {
+    color: white;
+    transform: translateX(5px);
+}
+
+.footer-section.contact p {
+    display: flex;
+    align-items: center;
+}
+
+.footer-section.contact p i {
+    margin-right: 10px;
+    color: var(--accent);
+}
+
+.footer-bottom {
+    background-color: rgba(0,0,0,0.2);
+    padding: 1.5rem 0;
+    text-align: center;
+    font-size: 0.9rem;
+}
+
+/* Dynamic Background */
+body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 10% 10%, rgba(26, 82, 118, 0.03), transparent 400px),
+        radial-gradient(circle at 90% 90%, rgba(231, 76, 60, 0.03), transparent 400px),
+        radial-gradient(circle at 90% 10%, rgba(52, 152, 219, 0.03), transparent 300px),
+        radial-gradient(circle at 10% 90%, rgba(241, 196, 15, 0.03), transparent 300px);
+    z-index: -100;
+    pointer-events: none;
+    animation: backgroundShift 20s infinite alternate ease-in-out;
+}
+
+@keyframes backgroundShift {
+    0% {
+        background-position: 0% 0%, 100% 100%, 100% 0%, 0% 100%;
+    }
+    100% {
+        background-position: 10% 10%, 90% 90%, 90% 10%, 10% 90%;
+    }
+}
+
+/* Paper Effect for Main Content Areas */
+.categories, .featured-books, .continue-reading, .audiobooks, .notes-section {
+    position: relative;
+    isolation: isolate;
+}
+
+.categories::before, .featured-books::before, .continue-reading::before, .audiobooks::before, .notes-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: white;
+    z-index: -1;
+    transform: skewY(-2deg);
+    transform-origin: top right;
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.05);
+}
+
+.featured-books::before, .audiobooks::before {
+    background-color: #f0f3f6;
+}
+
+/* On Scroll Animations and Floating Elements */
+@keyframes float {
+    0% { transform: translateY(0); }
+    50% { transform: translateY(-10px); }
+    100% { transform: translateY(0); }
+}
+
+.hero h1, .hero p, .hero .search-bar {
+    animation-fill-mode: both;
+    animation-duration: 1s;
+    animation-delay: calc(var(--animation-order) * 0.2s);
+}
+
+.hero h1 { --animation-order: 1; }
+.hero p { --animation-order: 2; }
+.hero .search-bar { --animation-order: 3; }
+
+/* Pulse Animation for Main Action Buttons */
+.signup-btn, .audio-btn.play, .continue-btn, .buy-btn {
+    animation: pulse 2s infinite;
+}
+
+/* 3D Card Hover Effect */
+.category-card, .book-card, .reading-card, .audiobook-card, .note-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    transform-style: preserve-3d;
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+.category-card:hover, .book-card:hover, .reading-card:hover, .audiobook-card:hover, .note-card:hover {
+    transform: translateY(-5px) rotateX(5deg) translateZ(0);
+}
+
+/* Responsive Design Improvements */
+@media (max-width: 1024px) {
+    .header-content {
+        padding: 0 1rem;
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    }
+    
+    .book-slider {
+        padding-bottom: 2rem;
+    }
+}
+
+@media (max-width: 768px) {
+    .header-content {
+        flex-wrap: wrap;
+        padding: 0.5rem 0;
+    }
+    
+    nav {
+        order: 3;
+        width: 100%;
+        margin-top: 1rem;
+    }
+    
+    nav ul {
+        flex-direction: column;
+        align-items: center;
+        display: none;
+        width: 100%;
+        background: var(--primary);
+        padding: 1rem 0;
+        margin: 0;
+    }
+    
+    nav ul.show {
+        display: flex;
+    }
+    
+    nav ul li {
+        margin: 0.5rem 0;
+        width: 100%;
+        text-align: center;
+    }
+    
+    .mobile-menu {
+        display: block;
+        order: 2;
+    }
+    
+    .auth-buttons {
+        margin-left: auto;
+    }
+    
+    .hero h1 {
+        font-size: 2rem;
+    }
+    
+    .hero p {
+        font-size: 1rem;
+    }
+    
+    .categories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+        gap: 1rem;
+    }
+    
+    .reading-progress-container,
+    .audiobook-container {
+        grid-template-columns: 1fr;
+    }
+    
+    .notes-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-content {
+        grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+        width: 95%;
+        margin: 5vh auto;
+        padding: 1.5rem;
+    }
+    
+    .reader-content {
+        width: 95%;
+        height: 90vh;
+        margin: 2vh auto;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 0 15px;
+    }
+    
+    .search-bar {
+        flex-direction: column;
+    }
+    
+    .search-bar input {
+        border-radius: 4px;
+        margin-bottom: 0.5rem;
+    }
+    
+    .search-bar button {
+        border-radius: 4px;
+    }
+    
+    .category-card {
+        padding: 1.5rem 1rem;
+    }
+    
+    .categories-grid {
+        grid-template-columns: 1fr;
+        gap: 1rem;
+    }
+    
+    .notes-list {
+        grid-template-columns: 1fr;
+    }
+    
+    .reader-controls {
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+    }
+    
+    .page-info {
+        order: -1;
+    }
+    
+    .modal-content {
+        width: 98%;
+        margin: 2vh auto;
+        padding: 1rem;
+    }
+    
+    .reader-content {
+        width: 98%;
+        height: 95vh;
+        margin: 1vh auto;
+    }
+    
+    .book-slider {
+        padding: 0.5rem 0;
+    }
+    
+    .book-card {
+        min-width: 180px;
+    }
+}
+
+/* Advanced Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--primary);
+    border-radius: 5px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #154360;
+}
+
+/* Live Wallpaper Animation - Floating Particles */
+body::after {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: 
+        radial-gradient(circle at 20% 20%, rgba(26, 82, 118, 0.02) 0%, transparent 50px),
+        radial-gradient(circle at 80% 80%, rgba(231, 76, 60, 0.02) 0%, transparent 50px),
+        radial-gradient(circle at 80% 20%, rgba(52, 152, 219, 0.02) 0%, transparent 40px),
+        radial-gradient(circle at 20% 80%, rgba(241, 196, 15, 0.02) 0%, transparent 40px);
+    background-size: 300% 300%;
+    z-index: -9;
+    pointer-events: none;
+    animation: particleMovement 15s infinite ease-in-out;
+    opacity: 0.8;
+}
+
+/* Additional fixes for overlapping issues */
+* {
+    box-sizing: border-box;
+}
+
+html {
+    overflow-x: hidden;
+}
+
+body {
+    overflow-x: hidden;
+    width: 100%;
+    max-width: 100vw;
+}
+
+/* Prevent horizontal scrolling issues */
+.container, .categories-grid, .book-slider, .reading-progress-container, .audiobook-container, .notes-list {
+    max-width: 100%;
+    overflow-x: hidden;
+}
+
+/* Fix z-index layering */
+.hero {
+    position: relative;
+    z-index: 1;
+}
+
+.categories {
+    position: relative;
+    z-index: 2;
+}
+
+.featured-books {
+    position: relative;
+    z-index: 3;
+}
+
+.continue-reading {
+    position: relative;
+    z-index: 4;
+}
+
+.audiobooks {
+    position: relative;
+    z-index: 5;
+}
+
+.notes-section {
+    position: relative;
+    z-index: 6;
+}
+
+footer {
+    position: relative;
+    z-index: 7;
+}
+
+/* Ensure proper stacking for interactive elements */
+.book-actions {
+    z-index: 10;
+}
+
+.play-overlay {
+    z-index: 11;
+}
+
+.user-dropdown {
+    z-index: 1001;
+}
+
+/* Fix modal backdrop issues */
+.modal {
+    backdrop-filter: blur(2px);
+}
+
+/* Prevent content jumping */
+.category-card, .book-card, .reading-card, .audiobook-card, .note-card {
+    will-change: transform;
+    backface-visibility: hidden;
+}
+
+/* Fix image sizing issues */
+img {
+    max-width: 100%;
+    height: auto;
+    display: block;
+}
+
+/* Ensure grid items don't overflow */
+.categories-grid > *, .reading-progress-container > *, .audiobook-container > *, .notes-list > * {
+    min-width: 0;
+    overflow: hidden;
+}
+
+/* Fix flex item shrinking */
+.book-slider .book-card {
+    flex: 0 0 auto;
+}
+
+/* Prevent text overflow */
+h1, h2, h3, h4, h5, h6, p {
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+/* Fix button positioning */
+button {
+    position: relative;
+    z-index: 1;
+}
+
+/* Ensure proper spacing */
+section {
+    margin-bottom: 0;
+    padding-bottom: 3rem;
+}
+
+section:last-of-type {
+    padding-bottom: 0;
+}
+
+/* Fix animation performance */
+.category-card, .book-card, .reading-card, .audiobook-card, .note-card {
+    transform: translateZ(0);
+}
+
+/* Additional responsive fixes */
+@media (max-width: 1200px) {
+    .container {
+        max-width: 100%;
+        padding: 0 15px;
+    }
+}
+
+@media (max-width: 992px) {
+    .categories-grid {
+        grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    }
+    
+    .reading-progress-container, .audiobook-container {
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    }
+}
+
+@media (max-width: 576px) {
+    .hero {
+        padding: 3rem 0;
+    }
+    
+    .hero h1 {
+        font-size: 1.8rem;
+    }
+    
+    .section-title {
+        font-size: 1.5rem;
+    }
+    
+    .book-card {
+        min-width: 160px;
+    }
+}
+
+@keyframes particleMovement {
+    0% { background-position: 0% 0%; }
+    25% { background-position: 100% 0%; }
+    50% { background-position: 100% 100%; }
+    75% { background-position: 0% 100%; }
+    100% { background-position: 0% 0%; }
+}
+
+/* Highlighted Text Effect */
+::selection {
+    background-color: var(--accent);
+    color: white;
+}
+
+/* Focus Outline Enhancement */
+*:focus {
+    outline: 2px dashed var(--accent);
+    outline-offset: 2px;
+}
+
+/* Critical fixes for layout stability */
+.header-content {
+    position: relative;
+    z-index: 1001;
+}
+
+/* Prevent layout shifts */
+.auth-buttons {
+    min-width: 160px;
+    justify-content: flex-end;
+}
+
+/* Fix dropdown positioning */
+.user-dropdown {
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 5px;
+}
+
+/* Ensure modals are always on top */
+.modal, .player-modal {
+    z-index: 99999 !important;
+}
+
+.modal-content, .player-content {
+    z-index: 100000 !important;
+}
+
+/* Fix any remaining overflow issues */
+body, html {
+    overflow-x: hidden !important;
+}
+
+/* Ensure proper grid behavior */
+.categories-grid, .reading-progress-container, .audiobook-container, .notes-list {
+    grid-auto-rows: min-content;
+}
+
+/* Fix sticky header on mobile */
+@media (max-width: 768px) {
+    header {
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+    }
+    
+    .header-content {
+        position: relative;
+    }
+}
+
+/* Performance optimizations */
+.category-card:hover, .book-card:hover, .reading-card:hover, .audiobook-card:hover, .note-card:hover {
+    transform: translateY(-5px) translateZ(0);
+}
+
+/* Ensure all interactive elements are accessible */
+a, button, .category-card, .book-card, .reading-card, .audiobook-card, .note-card {
+    touch-action: manipulation;
+}
+
+/* Fix any remaining z-index conflicts */
+.book-actions {
+    position: relative;
+    z-index: 100;
+}
+
+.play-overlay {
+    position: absolute;
+    z-index: 101;
+}
+
+/* Ensure proper modal behavior */
+.modal.show {
+    display: block !important;
+    opacity: 1 !important;
+}
+
+.modal.show .modal-content {
+    transform: translateY(0) !important;
+    opacity: 1 !important;
+}

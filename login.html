@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <script type="module" src="login.js" defer></script>
+  <title>Login Page</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    
+    body {
+      background: rgba(245, 247, 250, 0.8);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      animation: backgroundFade 5s infinite alternate;
+      overflow: hidden;
+    }
+
+    @keyframes backgroundFade {
+      0% {
+      background: rgba(245, 247, 250, 0.8);
+      }
+      100% {
+      background: rgba(230, 230, 230, 0.8);
+      }
+    }
+    
+    #canvas-container {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+    }
+    
+    .login-container {
+      background-color: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+      width: 400px;
+      padding: 8px;
+      text-align: center;
+      position: relative;
+      animation: borderAnimation 5s linear infinite;
+    }
+
+    @keyframes borderAnimation {
+      0% {
+      border: 4px solid #ff6f61;
+      }
+      25% {
+      border: 4px solid #ffcc00;
+      }
+      50% {
+      border: 4px solid #4caf50;
+      }
+      75% {
+      border: 4px solid #2196f3;
+      }
+      100% {
+      border: 4px solid #ff6f61;
+      }
+    }
+    
+    .logo {
+      margin-bottom: 20px;
+      height: 100px;
+    }
+
+    .continue {
+      height: 20px;
+    }
+    
+    #facebook {
+      width: 25px;
+      height: 25px;
+    }
+
+    h1 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      color: #333;
+    }
+    
+    .social-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      margin-bottom: 25px;
+    }
+    
+    .btn {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 12px 20px;
+      border-radius: 6px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      text-decoration: none;
+      border: none;
+    }
+    
+    .btn-social {
+      color: #fff;
+    }
+    
+    .btn-social img {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+    }
+    
+    .btn-google {
+      background-color: #ffffff;
+      color: #757575;
+      border: 1px solid #dddfe2;
+    }
+    
+    .btn-google:hover {
+      background-color: #f1f1f1;
+    }
+    
+    .btn-facebook {
+      background-color: #1877f2;
+    }
+    
+    .btn-facebook:hover {
+      background-color: #166fe5;
+    }
+    
+    .btn-apple {
+      background-color: #000;
+    }
+    
+    .btn-apple:hover {
+      background-color: #333;
+    }
+    
+    .btn-twitter {
+      background-color: #1DA1F2;
+    }
+    
+    .btn-twitter:hover {
+      background-color: #0d8fd9;
+    }
+    
+    .divider {
+      display: flex;
+      align-items: center;
+      margin: 20px 0;
+      color: #777;
+      font-size: 14px;
+    }
+    
+    .divider::before,
+    .divider::after {
+      content: "";
+      flex: 1;
+      border-bottom: 1px solid #dddfe2;
+    }
+    
+    .divider::before {
+      margin-right: 10px;
+    }
+    
+    .divider::after {
+      margin-left: 10px;
+    }
+    
+    .form-group {
+      margin-bottom: 16px;
+      text-align: left;
+    }
+    
+    label {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 14px;
+      color: #333;
+      font-weight: 500;
+    }
+    
+    input {
+      width: 100%;
+      padding: 12px;
+      border: 1px solid #dddfe2;
+      border-radius: 6px;
+      font-size: 14px;
+      transition: border 0.2s ease;
+    }
+    
+    input:focus {
+      outline: none;
+      border-color: #4285f4;
+    }
+    
+    .forgot-password {
+      display: block;
+      text-align: right;
+      margin: 10px 0 20px;
+      font-size: 14px;
+      color: #4285f4;
+      text-decoration: none;
+    }
+    
+    .forgot-password:hover {
+      text-decoration: underline;
+    }
+    
+    .btn-login {
+      background-color: #4285f4;
+      color: white;
+      width: 100%;
+      font-size: 16px;
+    }
+    
+    .btn-login:hover {
+      background-color: #3367d6;
+    }
+    
+    .signup-link {
+      margin-top: 20px;
+      font-size: 14px;
+      color: #666;
+    }
+    
+    .signup-link a {
+      color: #4285f4;
+      text-decoration: none;
+      font-weight: 500;
+    }
+    
+    .signup-link a:hover {
+      text-decoration: underline;
+    }
+    
+    @media (max-width: 480px) {
+      .login-container {
+        width: 90%;
+        padding: 30px 20px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div id="canvas-container"></div>
+  
+  <div class="login-container">
+    <div >
+      <img class="logo" src="./icons/person.png" alt="Logo">
+    </div>
+    
+    <h1>Log in to your account</h1>
+    
+    <div class="social-buttons">
+      <button id="google-login-btn" class="btn btn-social btn-google">
+        <img class="continue"  src="./icons/google.png" alt="google"> Continue with Google
+      </button>
+      
+      <button class="btn btn-social btn-facebook">
+        <img class="continue" src="./icons/facebook.png" id="facebook"> Continue with Facebook
+      </button>
+      
+      <button class="btn btn-social btn-apple">
+        <img class="continue" src="./icons/apple (1).png" alt="apple" style="width: 25px; height: 25px;"> Continue with Apple
+      </button>
+      
+      <button class="btn btn-social btn-twitter">
+        <img class="continue" src="./icons/twitter.png" alt="twitter" style="width: 25px; height: 25px;"> Continue with Twitter
+      </button>
+    </div>
+    
+    <div class="divider">or</div>
+    
+    <form>
+      <div class="form-group" id="login">
+        <label for="email">Email</label>
+        <input type="email" id="email" placeholder="Enter your email" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required>
+      </div>
+      
+      <a href="#" class="forgot-password">Forgot password?</a>
+      
+      <button type="submit" id="submit" class="btn btn-login">Log In</button>
+    </form>
+    
+    <div class="signup-link">
+      Don't have an account? <a href="signup.html">Sign up</a>
+    </div>
+  </div>
+  
+  <!-- Three.js for background effects -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r134/three.min.js"></script>
+  <script>
+    // Initialize the 3D background once Three.js is loaded
+    document.addEventListener('DOMContentLoaded', function() {
+      // Initialize Three.js
+      if (typeof THREE !== 'undefined') {
+        console.log("Three.js library loaded successfully");
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ alpha: true, antialias: true });
+        
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        renderer.setClearColor(0x000000, 0);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
+        
+        // Create particles
+        const particlesCount = 100;
+        const particles = new THREE.Group();
+        
+        // Colors for particles
+        const colors = [
+          0x667eea, // Blue
+          0x764ba2, // Purple
+          0xfd79a8, // Pink
+          0x00cec9, // Teal
+          0x55efc4  // Mint
+        ];
+        
+        for (let i = 0; i < particlesCount; i++) {
+          const geometry = new THREE.SphereGeometry(Math.random() * 1 + 0.5, 16, 16);
+          const material = new THREE.MeshBasicMaterial({
+            color: colors[Math.floor(Math.random() * colors.length)],
+            transparent: true,
+            opacity: Math.random() * 0.5 + 0.2
+          });
+          
+          const particle = new THREE.Mesh(geometry, material);
+          
+          // Position particles randomly in 3D space
+          particle.position.x = (Math.random() - 0.5) * 100;
+          particle.position.y = (Math.random() - 0.5) * 100;
+          particle.position.z = (Math.random() - 0.5) * 100;
+          
+          // Store random movement values
+          particle.userData = {
+            speed: Math.random() * 0.05 + 0.01,
+            rotationSpeed: Math.random() * 0.01,
+            direction: new THREE.Vector3(
+              (Math.random() - 0.5) * 0.02,
+              (Math.random() - 0.5) * 0.02,
+              (Math.random() - 0.5) * 0.02
+            )
+          };
+          
+          particles.add(particle);
+        }
+        
+        scene.add(particles);
+        
+        // Add ambient light
+        const ambientLight = new THREE.AmbientLight(0xffffff, 0.5);
+        scene.add(ambientLight);
+        
+        // Position camera
+        camera.position.z = 30;
+        
+        // Handle window resize
+        window.addEventListener('resize', () => {
+          camera.aspect = window.innerWidth / window.innerHeight;
+          camera.updateProjectionMatrix();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+        
+        // Animation loop
+        function animate() {
+          requestAnimationFrame(animate);
+          
+          // Rotate and move particles
+          particles.children.forEach(particle => {
+            particle.rotation.x += particle.userData.rotationSpeed;
+            particle.rotation.y += particle.userData.rotationSpeed;
+            
+            particle.position.x += particle.userData.direction.x;
+            particle.position.y += particle.userData.direction.y;
+            particle.position.z += particle.userData.direction.z;
+            
+            // Bounce particles when they go too far
+            const maxDistance = 50;
+            
+            if (Math.abs(particle.position.x) > maxDistance) {
+              particle.userData.direction.x *= -1;
+            }
+            
+            if (Math.abs(particle.position.y) > maxDistance) {
+              particle.userData.direction.y *= -1;
+            }
+            
+            if (Math.abs(particle.position.z) > maxDistance) {
+              particle.userData.direction.z *= -1;
+            }
+          });
+          
+          // Rotate the entire particle system slowly
+          particles.rotation.y += 0.001;
+          
+          renderer.render(scene, camera);
+        }
+        
+        animate();
+      } else {
+        console.error("Three.js library failed to load");
+      }
+    });
+  </script>
+  
+  <!-- Firebase SDK -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/7.14.1-0/firebase.js"></script>
+</body>
+</html>

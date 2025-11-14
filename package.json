@@ -1,0 +1,19 @@
+{
+  "name": "onlinelib",
+  "version": "1.0.0",
+  "description": "Online Library - Discover books, audiobooks, and manage your reading journey",
+  "main": "gateway.html",
+  "scripts": {
+    "start": "npx http-server . -p 3000 -o gateway.html",
+    "dev": "npx live-server --port=3000 --open=gateway.html",
+    "build": "echo 'Build complete'",
+    "test": "echo 'No tests specified'"
+  },
+  "keywords": ["library", "books", "audiobooks", "reading"],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2"
+  }
+}

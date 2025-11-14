@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <script src="script.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BookHaven - Online Library Management System</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Enhanced Notes Section Styles */
+        .notes-section {
+            padding: 60px 0;
+            background-color: #f8f9fa;
+        }
+        
+        .notes-container {
+            background: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .notes-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 25px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+        
+        .notes-header h2 {
+            color: #333;
+            font-size: 1.8rem;
+            margin: 0;
+        }
+        
+        .add-note-btn {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .add-note-btn:hover {
+            background: #3367d6;
+        }
+        
+        .notes-list {
+            display: grid;
+            gap: 20px;
+        }
+        
+        .note-card {
+            background: #fff;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            border-left: 4px solid #4285f4;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            position: relative;
+        }
+        
+        .note-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+        }
+        
+        .note-content {
+            margin-bottom: 15px;
+        }
+        
+        .note-content p {
+            margin: 0;
+            font-style: italic;
+            color: #555;
+            line-height: 1.5;
+        }
+        
+        .note-source {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 5px;
+            margin-bottom: 15px;
+            font-size: 0.9rem;
+        }
+        
+        .book-title {
+            font-weight: 600;
+            color: #333;
+        }
+        
+        .author {
+            color: #666;
+        }
+        
+        .note-actions {
+            display: flex;
+            justify-content: flex-end;
+            gap: 10px;
+        }
+        
+        .note-actions button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px 8px;
+            border-radius: 4px;
+            transition: background 0.3s ease;
+            color: #666;
+        }
+        
+        .note-actions button:hover {
+            background: #f5f5f5;
+        }
+        
+        .note-actions .edit-btn:hover {
+            color: #4285f4;
+        }
+        
+        .note-actions .delete-btn:hover {
+            color: #e74c3c;
+        }
+        
+        /* Enhanced Modal Styles for Notes */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease;
+        }
+        
+        .modal-content {
+            background: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 12px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+        
+        .close-btn {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #999;
+            transition: color 0.3s ease;
+        }
+        
+        .close-btn:hover {
+            color: #333;
+        }
+        
+        .modal h2 {
+            margin-bottom: 20px;
+            color: #333;
+        }
+        
+        .modal form {
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .modal label {
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #333;
+        }
+        
+        .modal input,
+        .modal textarea {
+            padding: 12px;
+            margin-bottom: 20px;
+            border: 1px solid #ddd;
+            border-radius: 6px;
+            font-size: 1rem;
+            transition: border-color 0.3s ease;
+        }
+        
+        .modal input:focus,
+        .modal textarea:focus {
+            outline: none;
+            border-color: #4285f4;
+        }
+        
+        .modal textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .modal button[type="submit"] {
+            background: #4285f4;
+            color: white;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.3s ease;
+        }
+        
+        .modal button[type="submit"]:hover {
+            background: #3367d6;
+        }
+        
+        /* Animations */
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { 
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to { 
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        
+        .empty-notes {
+            text-align: center;
+            padding: 40px 20px;
+            color: #666;
+        }
+        
+        .empty-notes i {
+            font-size: 3rem;
+            margin-bottom: 15px;
+            color: #ddd;
+        }
+        
+        .empty-notes p {
+            margin: 0;
+            font-size: 1.1rem;
+        }
+        
+        .note-date {
+            font-size: 0.8rem;
+            color: #999;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+<!-- Header -->
+<header>
+    <div class="container header-content">
+        <div class="logo">
+            <i class="fas fa-book"></i>
+            <span>BookHaven</span>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#" class="active">Home</a></li>
+                <li><a href="#">Browse</a></li>
+                <li><a href="#">Categories</a></li>
+                <li><a href="#">My Library</a></li>
+                <li><a href="#" onclick="scrollToNotes()">Notes</a></li>
+                <li><a href="audiobooks.html">Audiobooks</a></li>
+            </ul>
+        </nav>
+        <div class="auth-buttons">
+            <!-- Show login/signup buttons when logged out -->
+            <div id="logged-out-buttons">
+                <button class="login-btn" onclick="window.location.href='login.html'">Login</button>
+                <button class="signup-btn" onclick="window.location.href='signup.html'">Sign Up</button>
+            </div>
+            
+            <!-- Show user profile icon when logged in -->
+            <div id="user-profile-container" style="display: none;">
+                <div class="user-profile-icon" id="user-profile-icon">
+                    <img src="./icons/person.png" alt="User" id="user-avatar">
+                </div>
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="user-info">
+                        <p id="user-email"></p>
+                    </div>
+                    <div class="dropdown-divider"></div>
+                    <a href="#" id="logout-btn">Logout</a>
+                </div>
+            </div>
+        </div>
+        <div class="mobile-menu">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+
+<!-- Add this to your existing CSS or in a style tag -->
+<style>
+    /* Fixed width for auth-buttons to prevent layout shift */
+    .auth-buttons {
+        display: flex;
+        align-items: center;
+        min-width: 160px; /* Set minimum width to prevent layout shift */
+        justify-content: flex-end; /* Align contents to the right */
+    }
+    
+    /* Make sure the logged out buttons don't change layout */
+    #logged-out-buttons {
+        display: flex;
+        gap: 10px;
+    }
+    
+    /* User profile container styles to maintain consistent width */
+    #user-profile-container {
+        display: flex;
+        justify-content: flex-end; /* Align to the right like the buttons */
+        width: 100%; /* Fill the auth-buttons container */
+    }
+    
+    .user-profile-icon {
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    
+    .user-profile-icon img {
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        border: 2px solid #4285f4;
+        object-fit: cover;
+    }
+    
+    .user-dropdown {
+        position: absolute;
+        top: 45px;
+        right: 0;
+        background: white;
+        border-radius: 8px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
+        width: 250px;
+        z-index: 1000;
+        display: none;
+    }
+    
+    .user-dropdown.active {
+        display: block;
+    }
+    
+    .user-info {
+        padding: 16px;
+        text-align: center;
+    }
+    
+    .user-info p {
+        margin: 0;
+        font-size: 14px;
+        color: #333;
+        word-break: break-all;
+    }
+    
+    .dropdown-divider {
+        border-top: 1px solid #e0e0e0;
+    }
+    
+    .user-dropdown a {
+        display: block;
+        padding: 12px 16px;
+        text-decoration: none;
+        color: #333;
+        font-size: 14px;
+        transition: background-color 0.2s;
+    }
+    
+    .user-dropdown a:hover {
+        background-color: #f5f5f5;
+    }
+    
+    #logout-btn {
+        color: #e74c3c;
+    }
+</style>
+
+<!-- Add this script to handle user authentication state -->
+<script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-app.js";
+    import { 
+        getAuth, 
+        onAuthStateChanged,
+        signOut
+    } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-auth.js";
+
+    // Your Firebase configuration
+    const firebaseConfig = {
+        apiKey: "AIzaSyCcNbxJ0EKWagsIW38TORE02cwKykBTSNc",
+        authDomain: "online-library-cd2dc.firebaseapp.com",
+        databaseURL: "https://online-library-cd2dc-default-rtdb.firebaseio.com",
+        projectId: "online-library-cd2dc",
+        storageBucket: "online-library-cd2dc.firebasestorage.app",
+        messagingSenderId: "303000110572",
+        appId: "1:303000110572:web:1393b8555ad2789e572cc9"
+    };
+
+    // Initialize Firebase
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+
+    document.addEventListener('DOMContentLoaded', function() {
+        const loggedOutButtons = document.getElementById('logged-out-buttons');
+        const userProfileContainer = document.getElementById('user-profile-container');
+        const userProfileIcon = document.getElementById('user-profile-icon');
+        const userDropdown = document.getElementById('user-dropdown');
+        const userEmail = document.getElementById('user-email');
+        const userAvatar = document.getElementById('user-avatar');
+        const logoutBtn = document.getElementById('logout-btn');
+        
+        // Toggle dropdown when clicking on profile icon
+        userProfileIcon.addEventListener('click', function(e) {
+            e.preventDefault();
+            e.stopPropagation();
+            userDropdown.classList.toggle('active');
+        });
+        
+        // Close dropdown when clicking elsewhere on the page
+        document.addEventListener('click', function(event) {
+            if (!userProfileIcon.contains(event.target) && !userDropdown.contains(event.target)) {
+                userDropdown.classList.remove('active');
+            }
+        });
+
+        // Check URL parameters for login success
+        const urlParams = new URLSearchParams(window.location.search);
+        const loginStatus = urlParams.get('login');
+        
+        if (loginStatus === 'success') {
+            // Clean the URL parameters without reloading
+            const newUrl = window.location.pathname;
+            window.history.replaceState({}, document.title, newUrl);
+        }
+
+        // Check if user data is in localStorage
+        const userData = localStorage.getItem('userData');
+        if (userData) {
+            const user = JSON.parse(userData);
+            displayUserProfile(user);
+        }
+
+        // Listen for auth state changes
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                // User is signed in
+                const userData = {
+                    uid: user.uid,
+                    email: user.email,
+                    displayName: user.displayName || user.email.split('@')[0],
+                    photoURL: user.photoURL
+                };
+                localStorage.setItem('userData', JSON.stringify(userData));
+                localStorage.setItem('userLoggedIn', 'true');
+                
+                displayUserProfile(userData);
+            } else {
+                // User is signed out
+                localStorage.removeItem('userData');
+                localStorage.removeItem('userLoggedIn');
+                loggedOutButtons.style.display = 'flex';
+                userProfileContainer.style.display = 'none';
+            }
+        });
+
+        // Display user profile data
+        function displayUserProfile(user) {
+            // Update the UI
+            loggedOutButtons.style.display = 'none';
+            userProfileContainer.style.display = 'flex'; // Changed to flex for proper alignment
+            
+            // Set user email
+            userEmail.textContent = user.email;
+            
+            // Set user photo if available
+            if (user.photoURL) {
+                userAvatar.src = user.photoURL;
+            } else {
+                userAvatar.src = './icons/person.png'; // Default avatar
+            }
+        }
+
+        // Set up logout functionality
+        logoutBtn.addEventListener('click', function(e) {
+            e.preventDefault();
+            signOut(auth).then(() => {
+                // Sign-out successful
+                console.log("User signed out");
+                localStorage.removeItem('userData');
+                localStorage.removeItem('userLoggedIn');
+                window.location.href = 'index.html';
+            }).catch((error) => {
+                // An error happened
+                console.error("Sign out error:", error);
+            });
+        });
+
+    });
+</script>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Discover Your Next Favorite Book</h1>
+            <p>Explore thousands of books, create notes, listen to audiobooks, and manage your reading journey all in one place.</p>
+            <div class="search-bar">
+                <input type="text" placeholder="Search for books, authors, genres...">
+                <button><i class="fas fa-search"></i> Search</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="categories">
+        <div class="container">
+            <h2 class="section-title">Browse Categories</h2>
+            <div class="categories-grid">
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-book-open"></i></div>
+                    <h3>Novels</h3>
+                    <p>Explore fiction across genres</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-brain"></i></div>
+                    <h3>Philosophy</h3>
+                    <p>Timeless wisdom and ideas</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-mask"></i></div>
+                    <h3>Comics</h3>
+                    <p>Visual storytelling adventures</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-graduation-cap"></i></div>
+                    <h3>Academic</h3>
+                    <p>Educational and reference works</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-microphone"></i></div>
+                    <h3>Audiobooks</h3>
+                    <p>Listen to your favorite titles</p>
+                </div>
+                <div class="category-card">
+                    <div class="category-icon"><i class="fas fa-rocket"></i></div>
+                    <h3>Sci-Fi</h3>
+                    <p>Futuristic worlds and technologies</p>
+                </div>
+                <a href="book.html" class="category-card" style="text-decoration: none; color: inherit;">
+                    <div class="category-icon"><i class="fas fa-bookmark"></i></div>
+                    <h3>Free Books</h3>
+                    <p>Access complete works at no cost</p>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Featured Books Section -->
+    <section class="featured-books">
+        <div class="container">
+            <h2 class="section-title">Featured Books</h2>
+            <div class="book-slider">
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="./icons/81wzd1wT-5L._UF1000,1000_QL80_.jpg" alt="Book Cover" style="width: 388px; height: auto;">
+                        <div class="book-actions">
+                            <button onclick="openBookReader(1)" class="preview-btn">Preview</button>
+                            <button class="rent-btn">Rent</button>
+                            <button class="buy-btn">Buy</button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3>The Silent Echo</h3>
+                        <p class="author">By Refaat Haider</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.5</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="./icons/BTH.jpg" alt="Book Cover" style="width: 400px; height: auto;">
+                        <div class="book-actions">
+                            <button onclick="openBookReader(2)" class="preview-btn">Preview</button>
+                            <button class="rent-btn">Rent</button>
+                            <button class="buy-btn">Buy</button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3>Beyond the Horizon</h3>
+                        <p class="author">By K J Cloutier</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="far fa-star"></i>
+                            <span>4.0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="./icons/WD.jpg" alt="Book Cover" style="width: 386px; height: auto;">
+                        <div class="book-actions">
+                            <button onclick="openBookReader(3)" class="preview-btn">Preview</button>
+                            <button class="rent-btn">Rent</button>
+                            <button class="buy-btn">Buy</button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3>Whispers in the Dark</h3>
+                        <p class="author">By Georgette St Clair</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <span>5.0</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="book-card">
+                    <div class="book-cover">
+                        <img src="./icons/TPJ.jpg" alt="Book Cover" style="width: 386px; height: auto;">
+                        <div class="book-actions">
+                            <button onclick="openBookReader(4)" class="preview-btn">Preview</button>
+                            <button class="rent-btn">Rent</button>
+                            <button class="buy-btn">Buy</button>
+                        </div>
+                    </div>
+                    <div class="book-info">
+                        <h3>The Philosopher's Journey</h3>
+                        <p class="author">By Lab Maharaj</p>
+                        <div class="rating">
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star"></i>
+                            <i class="fas fa-star-half-alt"></i>
+                            <span>4.7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="slider-controls">
+                <button onclick="scrollSlider('left')"><i class="fas fa-chevron-left"></i></button>
+                <button onclick="scrollSlider('right')"><i class="fas fa-chevron-right"></i></button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Continue Reading Section -->
+    <section class="continue-reading">
+        <div class="container">
+            <h2 class="section-title">Continue Reading</h2>
+            <div class="reading-progress-container">
+                <div class="reading-card">
+                    <div class="book-cover">
+                        <img src="./icons/81wzd1wT-5L._UF1000,1000_QL80_.jpg" alt="Book Cover" style="width: 200px; height: auto;">
+                    </div>
+                    <div class="reading-info">
+                        <h3>The Silent Echo</h3>
+                        <p class="author">By Refaat Haider</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 65%;"></div>
+                        </div>
+                        <p class="progress-text">65% Completed</p>
+                        <button onclick="openBookReader(1)" class="continue-btn">Continue Reading</button>
+                    </div>
+                </div>
+                <div class="reading-card">
+                    <div class="book-cover">
+                        <img src="./icons/TPJ.jpg" alt="Book Cover" style="width: 200px; height: auto;">
+                    </div>
+                    <div class="reading-info">
+                        <h3>The Philosopher's Journey</h3>
+                        <p class="author">By Lab Maharaj</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 35%;"></div>
+                        </div>
+                        <p class="progress-text">35% Completed</p>
+                        <button onclick="openBookReader(5)" class="continue-btn">Continue Reading</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Continue Listening Section -->
+    <section class="audiobooks">
+        <div class="container">
+            <h2 class="section-title">Continue Listening</h2>
+            <div class="audiobook-container">
+                <div class="audiobook-card">
+                    <div class="book-cover">
+                        <img src="./icons/TGG1.jpg" alt="Audiobook Cover" style="width: 140px; height: auto;">
+                        <div class="play-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                    </div>
+                    <div class="audiobook-info">
+                        <h3>The Great Gatsby</h3>
+                        <p class="author">By F. Scott Fitzgerald</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 42%;"></div>
+                        </div>
+                        <div class="audio-controls">
+                            <button class="audio-btn"><i class="fas fa-step-backward"></i></button>
+                            <button class="audio-btn play"><i class="fas fa-play"></i></button>
+                            <button class="audio-btn"><i class="fas fa-step-forward"></i></button>
+                            <div class="time">1:23:45 / 3:45:12</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="audiobook-card">
+                    <div class="book-cover">
+                        <img src="./icons/M.webp" alt="Audiobook Cover" style="width: 150px; height: auto;">
+                        <div class="play-icon">
+                            <i class="fas fa-play-circle"></i>
+                        </div>
+                    </div>
+                    <div class="audiobook-info">
+                        <h3>Meditations</h3>
+                        <p class="author">By Marcus Aurelius</p>
+                        <div class="progress-bar">
+                            <div class="progress" style="width: 78%;"></div>
+                        </div>
+                        <div class="audio-controls">
+                            <button class="audio-btn"><i class="fas fa-step-backward"></i></button>
+                            <button class="audio-btn play"><i class="fas fa-play"></i></button>
+                            <button class="audio-btn"><i class="fas fa-step-forward"></i></button>
+                            <div class="time">2:45:30 / 3:30:00</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Notes Section -->
+    <section class="notes-section" id="notes-section">
+        <div class="container">
+            <div class="notes-container">
+                <div class="notes-header">
+                    <h2>My Notes Collection</h2>
+                    <button class="add-note-btn" onclick="openNoteModal()"><i class="fas fa-plus"></i> Add Note</button>
+                </div>
+                <div class="notes-list" id="notes-list">
+                    <!-- Notes will be dynamically loaded here -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('login-modal')">&times;</span>
+            <h2>Login to Your Account</h2>
+            <form>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Signup Modal -->
+    <div id="signup-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('signup-modal')">&times;</span>
+            <h2>Create a New Account</h2>
+            <form>
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password" required>
+                <button type="submit">Sign Up</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Note Modal -->
+    <div id="note-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('note-modal')">&times;</span>
+            <h2 id="note-modal-title">Add a New Note</h2>
+            <form id="note-form">
+                <input type="hidden" id="note-id">
+                <label for="note-text">Note:</label>
+                <textarea id="note-text" name="note-text" rows="4" required placeholder="Enter your note here..."></textarea>
+                <label for="book-title">Book Title (optional):</label>
+                <input type="text" id="book-title" name="book-title" placeholder="Book title">
+                <label for="book-author">Author (optional):</label>
+                <input type="text" id="book-author" name="book-author" placeholder="Author name">
+                <button type="submit">Save Note</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Book Reader Modal -->
+    <div id="book-reader-modal" class="modal reader-modal">
+        <div class="reader-content">
+            <div class="reader-header">
+                <h2 id="reader-book-title">Book Title</h2>
+                <span class="close-btn" onclick="closeModal('book-reader-modal')">&times;</span>
+            </div>
+            <div class="reader-body">
+                <div class="book-pages">
+                    <div class="page" id="page-1">
+                        <p>This is a preview of the book. Only 10-15 pages are available for online reading. To continue reading, please rent or purchase this book.</p>
+                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce sit amet justo sit amet nisi tincidunt tincidunt. Aliquam ut nibh ut enim ullamcorper mollis. Aliquam vehicula, ligula non tempor faucibus, metus sem pretium urna, vel egestas metus purus quis metus.</p>
+                        <p>Nullam pharetra diam tortor, eu vulputate est feugiat a. Mauris vel est ut velit scelerisque lacinia. Morbi vehicula velit ac lacus elementum, id maximus turpis ultrices. In arcu justo, interdum sit amet quam in, tempus elementum erat.</p>
+                    </div>
+                </div>
+                <div class="reader-controls">
+                    <button class="page-btn prev" onclick="changePage('prev')"><i class="fas fa-chevron-left"></i> Previous</button>
+                    <span class="page-info">Page <span id="current-page">1</span> of <span id="total-pages">15</span></span>
+                    <button class="page-btn next" onclick="changePage('next')">Next <i class="fas fa-chevron-right"></i></button>
+                </div>
+                <div class="reader-actions">
+                    <button class="highlight-btn" onclick="highlightText()"><i class="fas fa-highlighter"></i> Highlight</button>
+                    <button class="save-note-btn" onclick="openHighlightModal()"><i class="fas fa-bookmark"></i> Save Note</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Highlight Modal -->
+    <div id="highlight-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-btn" onclick="closeModal('highlight-modal')">&times;</span>
+            <h2>Save Highlighted Text</h2>
+            <form id="highlight-form">
+                <label for="highlighted-text">Highlighted Text:</label>
+                <textarea id="highlighted-text" name="highlighted-text" rows="4" readonly></textarea>
+                <label for="note-comment">Your Comment (Optional):</label>
+                <textarea id="note-comment" name="note-comment" rows="3"></textarea>
+                <button type="submit">Save to Notes</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section about">
+                    <div class="logo">
+                        <i class="fas fa-book"></i>
+                        <span>BookHaven</span>
+                    </div>
+                    <p>Your personal online library for discovering, reading, and listening to books from various genres.</p>
+                    <div class="social-icons">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin"></i></a>
+                    </div>
+                </div>
+                <div class="footer-section links">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="#">Home</a></li>
+                        <li><a href="#">Browse</a></li>
+                        <li><a href="#">Categories</a></li>
+                        <li><a href="#">My Library</a></li>
+                        <li><a href="#" onclick="scrollToNotes()">Notes</a></li>
+                        <li><a href="audiobooks.html">Audiobooks</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section contact">
+                    <h3>Contact Us</h3>
+                    <p><i class="fas fa-envelope"></i> contact@bookhaven.com</p>
+                    <p><i class="fas fa-phone"></i> +91 91120098907</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Fatima Nagar Library Street, Book City, Pune</p>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2025 BookHaven - All Rights Reserved</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Enhanced JavaScript for Interactivity -->
+    <script>
+        // Notes Management System
+        let notes = JSON.parse(localStorage.getItem('bookhaven-notes')) || [];
+        let editingNoteId = null;
+
+        // Initialize notes when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            loadNotes();
+            setupNoteForm();
+            setupHighlightForm();
+        });
+
+        // Load and display notes
+        function loadNotes() {
+            const notesList = document.getElementById('notes-list');
+            
+            if (notes.length === 0) {
+                notesList.innerHTML = `
+                    <div class="empty-notes">
+                        <i class="fas fa-sticky-note"></i>
+                        <p>No notes yet. Add your first note to get started!</p>
+                    </div>
+                `;
+                return;
+            }
+            
+            notesList.innerHTML = '';
+            
+            notes.forEach(note => {
+                const noteCard = document.createElement('div');
+                noteCard.className = 'note-card';
+                noteCard.innerHTML = `
+                    <div class="note-content">
+                        <p>${note.text}</p>
+                    </div>
+                    ${note.bookTitle ? `
+                    <div class="note-source">
+                        <span class="book-title">${note.bookTitle}</span>
+                        ${note.author ? `<span class="author">- ${note.author}</span>` : ''}
+                    </div>
+                    ` : ''}
+                    <div class="note-date">
+                        Created: ${new Date(note.createdAt).toLocaleDateString()}
+                    </div>
+                    <div class="note-actions">
+                        <button class="edit-btn" onclick="editNote('${note.id}')"><i class="fas fa-edit"></i></button>
+                        <button class="delete-btn" onclick="deleteNote('${note.id}')"><i class="fas fa-trash-alt"></i></button>
+                    </div>
+                `;
+                notesList.appendChild(noteCard);
+            });
+        }
+
+        // Setup note form submission
+        function setupNoteForm() {
+            const noteForm = document.getElementById('note-form');
+            noteForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const noteText = document.getElementById('note-text').value;
+                const bookTitle = document.getElementById('book-title').value;
+                const author = document.getElementById('book-author').value;
+                
+                if (editingNoteId) {
+                    // Update existing note
+                    const noteIndex = notes.findIndex(note => note.id === editingNoteId);
+                    if (noteIndex !== -1) {
+                        notes[noteIndex] = {
+                            ...notes[noteIndex],
+                            text: noteText,
+                            bookTitle: bookTitle,
+                            author: author,
+                            updatedAt: new Date().toISOString()
+                        };
+                    }
+                } else {
+                    // Add new note
+                    const newNote = {
+                        id: generateId(),
+                        text: noteText,
+                        bookTitle: bookTitle,
+                        author: author,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                    notes.unshift(newNote);
+                }
+                
+                saveNotes();
+                loadNotes();
+                closeModal('note-modal');
+                resetNoteForm();
+            });
+        }
+
+        // Setup highlight form submission
+        function setupHighlightForm() {
+            const highlightForm = document.getElementById('highlight-form');
+            highlightForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                const highlightedText = document.getElementById('highlighted-text').value;
+                const comment = document.getElementById('note-comment').value;
+                const bookTitle = document.getElementById('reader-book-title').textContent;
+                
+                if (highlightedText.trim()) {
+                    const newNote = {
+                        id: generateId(),
+                        text: highlightedText,
+                        bookTitle: bookTitle,
+                        comment: comment,
+                        createdAt: new Date().toISOString(),
+                        updatedAt: new Date().toISOString()
+                    };
+                    notes.unshift(newNote);
+                    
+                    saveNotes();
+                    loadNotes();
+                    closeModal('highlight-modal');
+                    highlightForm.reset();
+                    
+                    // Show success message
+                    showNotification('Note saved successfully!', 'success');
+                }
+            });
+        }
+
+        // Open note modal for adding a new note
+        function openNoteModal() {
+            resetNoteForm();
+            document.getElementById('note-modal-title').textContent = 'Add a New Note';
+            openModal('note-modal');
+        }
+
+        // Edit existing note
+        function editNote(noteId) {
+            const note = notes.find(note => note.id === noteId);
+            if (note) {
+                document.getElementById('note-id').value = note.id;
+                document.getElementById('note-text').value = note.text;
+                document.getElementById('book-title').value = note.bookTitle || '';
+                document.getElementById('book-author').value = note.author || '';
+                document.getElementById('note-modal-title').textContent = 'Edit Note';
+                
+                editingNoteId = noteId;
+                openModal('note-modal');
+            }
+        }
+
+        // Delete note
+        function deleteNote(noteId) {
+            if (confirm('Are you sure you want to delete this note?')) {
+                notes = notes.filter(note => note.id !== noteId);
+                saveNotes();
+                loadNotes();
+                showNotification('Note deleted successfully!', 'success');
+            }
+        }
+
+        // Reset note form
+        function resetNoteForm() {
+            document.getElementById('note-form').reset();
+            document.getElementById('note-id').value = '';
+            editingNoteId = null;
+        }
+
+        // Save notes to localStorage
+        function saveNotes() {
+            localStorage.setItem('bookhaven-notes', JSON.stringify(notes));
+        }
+
+        // Generate unique ID for notes
+        function generateId() {
+            return Date.now().toString(36) + Math.random().toString(36).substr(2);
+        }
+
+        // Show notification
+        function showNotification(message, type) {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <span>${message}</span>
+                <button onclick="this.parentElement.remove()">&times;</button>
+            `;
+            
+            // Add styles for notification
+            notification.style.cssText = `
+                position: fixed;
+                top: 20px;
+                right: 20px;
+                background: ${type === 'success' ? '#4caf50' : '#f44336'};
+                color: white;
+                padding: 15px 20px;
+                border-radius: 4px;
+                box-shadow: 0 2px 10px rgba(0,0,0,0.2);
+                z-index: 10000;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                min-width: 300px;
+                animation: slideInRight 0.3s ease;
+            `;
+            
+            document.body.appendChild(notification);
+            
+            // Auto remove after 3 seconds
+            setTimeout(() => {
+                if (notification.parentElement) {
+                    notification.remove();
+                }
+            }, 3000);
+        }
+
+        // Scroll to notes section
+        function scrollToNotes() {
+            document.getElementById('notes-section').scrollIntoView({
+                behavior: 'smooth'
+            });
+        }
+
+        // Modal functions
+        function openModal(modalId) {
+            document.getElementById(modalId).style.display = 'block';
+        }
+
+        function closeModal(modalId) {
+            document.getElementById(modalId).style.display = 'none';
+        }
+
+        // Close modals when clicking outside
+        window.onclick = function(event) {
+            const modals = document.getElementsByClassName('modal');
+            for (let i = 0; i < modals.length; i++) {
+                if (event.target == modals[i]) {
+                    modals[i].style.display = 'none';
+                }
+            }
+        }
+
+        // Book slider scrolling
+        function scrollSlider(direction) {
+            const slider = document.querySelector('.book-slider');
+            const scrollAmount = 300;
+            
+            if (direction === 'left') {
+                slider.scrollBy({
+                    left: -scrollAmount,
+                    behavior: 'smooth'
+                });
+            } else {
+                slider.scrollBy({
+                    left: scrollAmount,
+                    behavior: 'smooth'
+                });
+            }
+        }
+
+        // Book reader functions
+        function openBookReader(bookId) {
+            // Set book title based on bookId
+            const titles = {
+                1: 'The Silent Echo',
+                2: 'Beyond the Horizon',
+                3: 'Whispers in the Dark',
+                4: 'The Philosopher\'s Journey',
+                5: 'Philosophical Investigations'
+            };
+            
+            document.getElementById('reader-book-title').textContent = titles[bookId] || 'Book Preview';
+            document.getElementById('current-page').textContent = '1';
+            
+            // Open the reader modal
+            openModal('book-reader-modal');
+        }
+
+        // Page navigation
+        let currentPage = 1;
+        const maxPages = 15; // Limit to 15 pages for preview
+
+        function changePage(direction) {
+            if (direction === 'next' && currentPage < maxPages) {
+                currentPage++;
+            } else if (direction === 'prev' && currentPage > 1) {
+                currentPage--;
+            }
+            
+            document.getElementById('current-page').textContent = currentPage;
+            
+            // Here you would load the content for the specific page
+            // For a real implementation, you'd fetch page content from a server
+            
+            // Show notification when reaching preview limit
+            if (currentPage === maxPages) {
+                alert('Preview limit reached. Please rent or purchase this book to continue reading.');
+            }
+        }
+
+        // Text highlighting function
+        function highlightText() {
+            const selection = window.getSelection();
+            if (selection.toString().length > 0) {
+                // Get selected text
+                const selectedText = selection.toString();
+                
+                // Display in the highlight modal
+                document.getElementById('highlighted-text').value = selectedText;
+                
+                // Open highlight modal
+                openModal('highlight-modal');
+            } else {
+                alert('Please select text to highlight first.');
+            }
+        }
+
+        // Open highlight modal from book reader
+        function openHighlightModal() {
+            const selection = window.getSelection();
+            if (selection.toString().length > 0) {
+                document.getElementById('highlighted-text').value = selection.toString();
+                openModal('highlight-modal');
+            } else {
+                alert('Please select text to highlight first.');
+            }
+        }
+
+        // Mobile menu toggle
+        document.querySelector('.mobile-menu').addEventListener('click', function() {
+            document.querySelector('nav ul').classList.toggle('show');
+        });
+
+        // Animation for elements when they come into view
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add animation classes when elements scroll into view
+            const animateOnScroll = function() {
+                const elements = document.querySelectorAll('.category-card, .book-card, .reading-card, .audiobook-card, .note-card');
+                
+                elements.forEach(element => {
+                    const elementPosition = element.getBoundingClientRect().top;
+                    const viewportHeight = window.innerHeight;
+                    
+                    if (elementPosition < viewportHeight - 100) {
+                        element.classList.add('animate');
+                    }
+                });
+            };
+
+            // Run on load
+            animateOnScroll();
+            
+            // Run on scroll
+            window.addEventListener('scroll', animateOnScroll);
+        });
+    </script>
+    <script src="script.js"></script>
+</body>
+</html>
